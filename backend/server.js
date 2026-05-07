@@ -1,11 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 
-// Load env vars
-dotenv.config();
+// Load env vars — use __dirname so this works whether called directly or via api/index.js
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 // Connect to database
 connectDB();
