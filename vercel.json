@@ -13,7 +13,8 @@
     },
     {
       "src": "/(.*)",
-      "dest": "backend/server.js"
+      "dest": "/index.html",
+      "check": true
     }
   ]
 }

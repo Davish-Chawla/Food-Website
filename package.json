@@ -1,0 +1,10 @@
+{
+  "name": "foodie-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install-all": "npm install && cd backend && npm install && cd ../Foodie && npm install",
+    "build-frontend": "cd Foodie && npm install && npm run build",
+    "start": "cd backend && npm start"
+  }
+}

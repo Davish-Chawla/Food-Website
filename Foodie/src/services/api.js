@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:5000/api/' 
-  : 'https://food-website-seven-sigma.vercel.app/api/';
+  : '/api/';
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
