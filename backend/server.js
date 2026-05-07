@@ -16,6 +16,12 @@ const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// Request logger
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 // Enable CORS
 app.use(cors());
 
@@ -54,10 +60,10 @@ const orderRoutes = require('./routes/orders');
 const adminRoutes = require('./routes/admin');
 
 // Mount routers
-app.use('/api/auth', authRoutes);
-app.use('/api/menu', menuRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/admin', adminRoutes);
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/menu', '/menu'], menuRoutes);
+app.use(['/api/orders', '/orders'], orderRoutes);
+app.use(['/api/admin', '/admin'], adminRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {

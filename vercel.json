@@ -4,6 +4,11 @@
     {
       "src": "backend/server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "Foodie/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     }
   ],
   "routes": [
@@ -13,8 +18,12 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html",
+      "dest": "Foodie/$1",
       "check": true
+    },
+    {
+      "src": "/(.*)",
+      "dest": "Foodie/index.html"
     }
   ]
 }
