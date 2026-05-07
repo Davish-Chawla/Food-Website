@@ -16,7 +16,12 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Enable CORS
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors()); // Allow all for now to ensure it works, or configure specifically
+
+// Root route for health check
+app.get('/', (req, res) => {
+  res.json({ message: 'Foodie API is running...' });
+});
 
 // Route files
 const authRoutes = require('./routes/auth');
