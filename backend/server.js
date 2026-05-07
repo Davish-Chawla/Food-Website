@@ -19,8 +19,16 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors()); // Allow all for now to ensure it works, or configure specifically
 
 // Root route for health check
-app.get('/', (req, res) => {
-  res.json({ message: 'Foodie API is running...' });
+app.get('/', async (req, res) => {
+  const dbStatus = mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected';
+  res.json({ 
+    message: 'Foodie API is running...', 
+    database: dbStatus,
+    env: {
+      has_mongo_uri: !!process.env.MONGO_URI,
+      node_env: process.env.NODE_ENV
+    }
+  });
 });
 
 // Route files
