@@ -2,19 +2,19 @@
   "version": 2,
   "builds": [
     {
+      "src": "backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "Foodie/package.json",
       "use": "@vercel/static-build",
       "config": { "distDir": "dist" }
-    },
-    {
-      "src": "api/index.js",
-      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/index.js"
+      "dest": "backend/server.js"
     },
     {
       "handle": "filesystem"
