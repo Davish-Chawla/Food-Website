@@ -1,29 +1,13 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "Foodie/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "backend/server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "Foodie/$1",
-      "check": true
-    },
-    {
-      "src": "/(.*)",
-      "dest": "Foodie/index.html"
+      "source": "/(.*)",
+      "destination": "/Foodie/dist/index.html"
     }
   ]
 }
