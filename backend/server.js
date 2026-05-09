@@ -8,8 +8,6 @@ const connectDB = require('./config/db');
 // Load env vars — use __dirname so this works whether called directly or via api/index.js
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-// Connect to database
-connectDB();
 
 const app = express();
 
@@ -40,12 +38,15 @@ app.use(async (req, res, next) => {
 app.get(['/', '/api'], async (req, res) => {
   try {
     const dbStatus = mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected';
+    const readyStateMap = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
     res.json({ 
       success: true,
       message: 'Foodie API is running...', 
       database: dbStatus,
+      readyState: readyStateMap[mongoose.connection.readyState] || 'unknown',
       env: {
         has_mongo_uri: !!process.env.MONGO_URI,
+        mongo_uri_prefix: process.env.MONGO_URI ? process.env.MONGO_URI.substring(0, 30) + '...' : 'NOT SET',
         node_env: process.env.NODE_ENV
       }
     });
