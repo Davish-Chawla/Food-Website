@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const User = require('./models/User');
 
 // Load env vars — use __dirname so this works whether called directly or via api/index.js
 dotenv.config({ path: path.resolve(__dirname, '.env') });
@@ -28,6 +29,22 @@ app.use(cors());
 app.use(async (req, res, next) => {
   try {
     await connectDB();
+    
+    // Auto-seed admin if it doesn't exist
+    if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
+      const adminExists = await User.findOne({ email: process.env.ADMIN_EMAIL });
+      if (!adminExists) {
+        console.log('Seeding admin user...');
+        await User.create({
+          name: 'System Admin',
+          email: process.env.ADMIN_EMAIL,
+          password: process.env.ADMIN_PASSWORD,
+          role: 'admin'
+        });
+        console.log('Admin user created successfully');
+      }
+    }
+    
     next();
   } catch (error) {
     res.status(500).json({ success: false, message: 'Database connection error', error: error.message });
