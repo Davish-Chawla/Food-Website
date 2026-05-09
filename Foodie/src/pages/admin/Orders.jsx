@@ -91,7 +91,7 @@ const Orders = () => {
       </div>
 
       <div className="bg-white rounded-[20px] shadow-[var(--shadow-sm)] border border-[var(--gray-2)] overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto pb-40">
           <table className="w-full text-left whitespace-nowrap border-collapse">
             <thead>
               <tr className="border-b border-[var(--gray-3)] text-[13px] text-[var(--text-secondary)] uppercase tracking-wide bg-[var(--gray-1)]">
