@@ -12,7 +12,6 @@ const AdminMessages = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedMessage, setSelectedMessage] = useState(null);
-  const [messageToDelete, setMessageToDelete] = useState(null);
 
   const fetchMessages = async () => {
     try {
@@ -47,13 +46,13 @@ const AdminMessages = () => {
   };
 
   const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this message?')) return;
     try {
       const res = await deleteMessage(id);
       if (res.success) {
         toast.success('Message deleted');
         setMessages(messages.filter(m => m._id !== id));
         setSelectedMessage(null);
-        setMessageToDelete(null);
       }
     } catch (error) {
       toast.error('Failed to delete message');
@@ -146,7 +145,7 @@ const AdminMessages = () => {
                     </div>
                     <div className="flex gap-3">
                       <button 
-                        onClick={() => setMessageToDelete(selectedMessage._id)}
+                        onClick={() => handleDelete(selectedMessage._id)}
                         className="p-3 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm"
                       >
                         <Trash2 size={20} />
@@ -189,6 +188,12 @@ const AdminMessages = () => {
                   <Button variant="dark" onClick={() => setSelectedMessage(null)}>
                     Close
                   </Button>
+                  <a 
+                    href={`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}`}
+                    className="flex items-center gap-2 px-8 py-4 bg-[var(--primary)] text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-[var(--primary)]/30 hover:scale-105 active:scale-95 transition-all"
+                  >
+                    <Mail size={18} /> Reply via Email
+                  </a>
                 </div>
               </motion.div>
             ) : (
@@ -205,43 +210,6 @@ const AdminMessages = () => {
           </AnimatePresence>
         </Card>
       </div>
-
-      {/* Delete Confirmation Modal */}
-      <AnimatePresence>
-        {messageToDelete && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              exit={{ opacity: 0 }} 
-              onClick={() => setMessageToDelete(null)} 
-              className="absolute inset-0 bg-black/60 backdrop-blur-md" 
-            />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }} 
-              animate={{ opacity: 1, scale: 1, y: 0 }} 
-              exit={{ opacity: 0, scale: 0.9, y: 20 }} 
-              className="bg-white rounded-[32px] w-full max-w-sm shadow-2xl relative z-10 p-10 text-center"
-            >
-              <div className="w-20 h-20 bg-red-50 text-[var(--primary)] rounded-full flex items-center justify-center mx-auto mb-6">
-                <Trash2 size={32} />
-              </div>
-              <h3 className="text-2xl font-black text-[var(--dark)] mb-4">Delete Message?</h3>
-              <p className="text-[var(--text-secondary)] font-medium mb-10 leading-relaxed">
-                Are you sure you want to remove this message from your inbox?
-              </p>
-              <div className="flex gap-4">
-                <Button variant="outline" onClick={() => setMessageToDelete(null)} className="flex-1">
-                  Cancel
-                </Button>
-                <Button onClick={() => handleDelete(messageToDelete)} className="flex-1">
-                  Delete
-                </Button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };

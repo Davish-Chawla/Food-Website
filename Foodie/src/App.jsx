@@ -39,7 +39,7 @@ function App() {
           <div className="min-h-screen bg-white">
             <Routes>
               {/* Admin Routes */}
-              <Route path="/Admin" element={<AdminLayout />}>
+              <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="menu" element={<MenuManagement />} />

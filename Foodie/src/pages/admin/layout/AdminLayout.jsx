@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
+import { Outlet, Navigate, Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { getAdminOrders } from '../../../services/adminService';
 import toast from 'react-hot-toast';
@@ -11,6 +11,7 @@ import Loader from '../../../components/ui/Loader';
 const AdminLayout = () => {
   const { user, logout, isAdmin, loading } = useContext(AuthContext);
   const location = useLocation();
+  const navigate = useNavigate();
   const lastOrderTimeRef = useRef(Date.now());
   const activeToastsRef = useRef(new Set());
 
@@ -48,8 +49,11 @@ const AdminLayout = () => {
                         <p className="mt-1 text-sm font-bold text-[var(--text-secondary)]">From: {order.user?.name || 'Customer'}</p>
                         <div className="mt-4 flex gap-2">
                           <Link 
-                            to="/Admin/orders" 
-                            onClick={() => toast.dismiss(t.id)}
+                            to="/admin/orders" 
+                            onClick={() => {
+                              toast.dismiss(t.id);
+                              navigate('/admin/orders');
+                            }}
                             className="px-4 py-2 bg-[var(--dark)] text-white text-[11px] font-black uppercase tracking-widest rounded-xl hover:bg-[var(--primary)] transition-colors"
                           >
                             View Order
