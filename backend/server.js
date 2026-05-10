@@ -61,12 +61,14 @@ const authRoutes = require('./routes/auth');
 const menuRoutes = require('./routes/menu');
 const orderRoutes = require('./routes/orders');
 const adminRoutes = require('./routes/admin');
+const messageRoutes = require('./routes/message');
 
 // Mount routers
 app.use(['/api/auth', '/auth'], authRoutes);
 app.use(['/api/menu', '/menu'], menuRoutes);
 app.use(['/api/orders', '/orders'], orderRoutes);
 app.use(['/api/admin', '/admin'], adminRoutes);
+app.use(['/api/messages', '/messages'], messageRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
